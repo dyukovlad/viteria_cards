@@ -25,52 +25,29 @@ const RemoteComponentLoaderBase: React.FC<RemoteComponentLoaderProps> = ({ modul
   const [RemoteComponent, setRemoteComponent] = useState<ComponentType<any> | null>(null);
 
   useEffect(() => {
-    let importPromise: Promise<any>;
+    const importMap = {
+      'cardList/CardList': () => import('cardList/CardList'),
+      'dataSelector/DataSelector': () => import('dataSelector/DataSelector'),
+      'themeSelector/ThemeSelector': () => import('themeSelector/ThemeSelector'),
+    };
 
-    switch (modulePath) {
-      case 'cardList/CardList':
-        importPromise = import('cardList/CardList');
-        break;
-      case 'dataSelector/DataSelector':
-        importPromise = import('dataSelector/DataSelector');
-        break;
-      case 'themeSelector/ThemeSelector':
-        importPromise = import('themeSelector/ThemeSelector');
-        break;
-      default:
-        console.error(`Unknown module path: ${modulePath}`);
-        return;
+    const importFn = importMap[modulePath as keyof typeof importMap];
+    if (!importFn) {
+      console.error(`Unknown module path: ${modulePath}`);
+      return;
     }
 
-    importPromise
+    importFn()
       .then((module) => {
-        let component: ComponentType<any> | null = null;
-
-        if (module && typeof module.default === 'function') {
-          component = module.default;
-        } else if (typeof module === 'function') {
-          component = module;
-        } else if (module && module.default && typeof module.default === 'function') {
-          component = module.default;
-        }
-
-        if (component) {
-          setRemoteComponent(() => component);
-        } else {
-          console.error(
-            `${componentName} component not found in module:`,
-            module
-          );
-          if (module) {
-            console.log(
-              `Available exports from ${componentName}:`,
-              Object.keys(module)
-            );
-          }
-        }
+        const component = module?.default || null;
+        setRemoteComponent(() => component);
       })
-      .catch((err) => console.error(`Failed to load ${componentName}:`, err));
-  }, [componentName]);
+      .catch((err) => {
+        console.error(`Failed to load ${componentName}:`, err);
+        const FallbackComponent = (props: any) => React.createElement('div', {}, `${componentName} failed to load`);
+        setRemoteComponent(() => FallbackComponent);
+      });
+  }, [modulePath, componentName]);
 
   return RemoteComponent ? (
     <RemoteComponent {...props} />

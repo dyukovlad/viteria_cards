@@ -49,9 +49,9 @@ export default {
     new ModuleFederationPlugin({
       name: 'dataSelector',
       filename: 'remoteEntry.js',
-      exposes: {
-        './DataSelector': './src/DataSelector.tsx',
-      },
+       exposes: {
+         './DataSelector': './src/index.ts',
+       },
       shared: {
         react: { singleton: true, requiredVersion: false },
         'react-dom': { singleton: true, requiredVersion: false },

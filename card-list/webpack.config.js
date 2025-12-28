@@ -49,9 +49,9 @@ export default {
     new ModuleFederationPlugin({
       name: 'cardList',
       filename: 'remoteEntry.js',
-      exposes: {
-        './CardList': './src/CardList.tsx',
-      },
+       exposes: {
+         './CardList': './src/index.ts',
+       },
       shared: {
         react: { singleton: true, requiredVersion: false },
         'react-dom': { singleton: true, requiredVersion: false },

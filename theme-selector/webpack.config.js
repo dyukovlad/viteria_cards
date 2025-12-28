@@ -49,16 +49,16 @@ export default {
     new ModuleFederationPlugin({
       name: 'themeSelector',
       filename: 'remoteEntry.js',
-      exposes: {
-        './ThemeSelector': './src/ThemeSelector.tsx',
-      },
+       exposes: {
+         './ThemeSelector': './src/index.ts',
+       },
       shared: {
         react: { singleton: true, requiredVersion: false },
         'react-dom': { singleton: true, requiredVersion: false },
       },
     }),
-    // new HtmlWebpackPlugin({
-    //   template: './public/index.html',
-    // }),
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    }),
   ],
 };
