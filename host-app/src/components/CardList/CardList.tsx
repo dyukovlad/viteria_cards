@@ -5,7 +5,7 @@ import { fetchQuotes, fetchTodos, Quote, Todo } from '../../utils/sharedApi';
 const ITEMS_PER_PAGE = 5;
 
 type CardListProps = {
-  dataSource: 'quotes' | 'todos';
+  dataSource: string;
 };
 
 const CardList: React.FC<CardListProps> = memo(({ dataSource }) => {
