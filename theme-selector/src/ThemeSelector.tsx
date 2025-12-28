@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
-type ThemeSelectorProps = {
-  onChange: (newValue: string) => void;
+export type ThemeSelectorProps = {
+  onChange: (value: string) => void;
 };
 
 const themes = [

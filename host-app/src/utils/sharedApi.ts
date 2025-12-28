@@ -1,31 +1,18 @@
 // Этот файл предоставляет типизированный доступ к shared API через Module Federation
 // Используется для избежания динамических импортов в компонентах
 
+import type { ApiResponse, Quote, Todo } from 'shared/api';
+
 let sharedApi: any = null;
-
-// Типы для API ответов
-export type ApiResponse<T> = {
-  data: T[];
-  total: number;
-};
-
-export type Quote = {
-  id: number;
-  quote: string;
-  author: string;
-};
-
-export type Todo = {
-  id: number;
-  todo: string;
-  completed: boolean;
-};
 
 // Тип для shared API
 type SharedApiInterface = {
   fetchQuotes: (limit: number, skip: number) => Promise<ApiResponse<Quote>>;
   fetchTodos: (limit: number, skip: number) => Promise<ApiResponse<Todo>>;
 };
+
+// Реэкспортируем типы для удобства
+export type { ApiResponse, Quote, Todo };
 
 // Функция для получения shared API
 export const getSharedApi = async (): Promise<SharedApiInterface> => {

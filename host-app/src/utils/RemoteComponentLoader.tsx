@@ -1,16 +1,17 @@
 import React, { useState, useEffect, memo, ComponentType } from 'react';
 
+// Define types locally to avoid import issues with .d.ts files
 type CardListProps = {
   dataSource: string;
   data?: any[];
 };
 
 type DataSelectorProps = {
-  onChange: (newValue: string) => void;
+  onChange: (value: string) => void;
 };
 
 type ThemeSelectorProps = {
-  onChange: (newValue: string) => void;
+  onChange: (value: string) => void;
 };
 
 type RemoteComponentLoaderProps =

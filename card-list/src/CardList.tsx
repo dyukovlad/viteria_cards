@@ -1,11 +1,11 @@
 import React, { memo } from 'react';
 
-type CardItem = {
+export type CardItem = {
   id: number;
   [key: string]: any;
 };
 
-type CardListProps = {
+export type CardListProps = {
   dataSource: string;
   data?: CardItem[];
 };

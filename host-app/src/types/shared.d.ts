@@ -1,7 +1,7 @@
 declare module 'shared/api' {
   // Типы для API ответов
   export type ApiResponse<T> = {
-    [key: string]: T[];
+    data: T[];
     total: number;
   };
 
@@ -17,14 +17,25 @@ declare module 'shared/api' {
     completed: boolean;
   };
 
-  // Типы для API функций
+  export type RawApiResponse<T> = {
+    [key: string]: T[] | number;
+  };
+
+  // Функции API
+  export const fetchData: <T extends Quote | Todo>(
+    endpoint: string,
+    limit: number,
+    skip: number
+  ) => Promise<ApiResponse<T>>;
+
   export const fetchQuotes: (
-    limit: number,
-    skip: number
+    limit?: number,
+    skip?: number
   ) => Promise<ApiResponse<Quote>>;
+
   export const fetchTodos: (
-    limit: number,
-    skip: number
+    limit?: number,
+    skip?: number
   ) => Promise<ApiResponse<Todo>>;
 }
 
@@ -33,23 +44,33 @@ declare module 'webComponents/register' {
 }
 
 declare module 'dataSelector/DataSelector' {
-  const DataSelector: React.ComponentType<{
-    onChange: (newValue: string) => void;
-  }>;
+  interface DataSelectorProps {
+    onChange: (value: string) => void;
+  }
+  const DataSelector: React.ComponentType<DataSelectorProps>;
   export default DataSelector;
+  export type { DataSelectorProps };
 }
 
 declare module 'themeSelector/ThemeSelector' {
-  const ThemeSelector: React.ComponentType<{
-    onChange: (newValue: string) => void;
-  }>;
+  interface ThemeSelectorProps {
+    onChange: (value: string) => void;
+  }
+  const ThemeSelector: React.ComponentType<ThemeSelectorProps>;
   export default ThemeSelector;
+  export type { ThemeSelectorProps };
 }
 
 declare module 'cardList/CardList' {
-  const CardList: React.ComponentType<{
+  interface CardItem {
+    id: number;
+    [key: string]: any;
+  }
+  interface CardListProps {
     dataSource: string;
-    data?: (Quote | Todo)[];
-  }>;
+    data?: CardItem[];
+  }
+  const CardList: React.ComponentType<CardListProps>;
   export default CardList;
+  export type { CardListProps, CardItem };
 }

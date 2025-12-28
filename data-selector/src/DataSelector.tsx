@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
-type DataSelectorProps = {
-  onChange: (newValue: string) => void;
+export type DataSelectorProps = {
+  onChange: (value: string) => void;
 };
 
 const dataSources = [
